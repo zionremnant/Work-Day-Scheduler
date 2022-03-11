@@ -1,76 +1,52 @@
-function updateTime() {
-let today = moment();
+$(document).ready(function () {
+//time on header
+$("#currentDay").text(moment().format("dddd, MMMM Do YYYY, h:mm a"));
 
-// time on header
-$("#currentDay").text(today.format("dddd, MMMM Do YYYY, h:mm:ss a"));
+//save buttonm
+$(".saveBtn").on("click", function () {
+console.log(this);
+var text = $(this).siblings(".description").val();
+var time = $(this).parent().attr("id");
 
-// past present future time blocks
-let now = moment().format("kk");
-for (let i = 0; i < scheduleElArray.length; i++) {
-    scheduleElArray[i].removeClass("future past present");
+//local storage set item
+localStorage.setItem(time, text);
+})
+//localstorage ea hr
+$("#9am .description").val(localStorage.getItem("9am"));
+$("#10am .description").val(localStorage.getItem("10am"));
+$("#11am .description").val(localStorage.getItem("11am"));
+$("#12pm .description").val(localStorage.getItem("12pm"));
+$("#1pm .description").val(localStorage.getItem("1pm"));
+$("#2pm .description").val(localStorage.getItem("2pm"));
+$("#3pm .description").val(localStorage.getItem("3pm"));
+$("#4pm .description").val(localStorage.getItem("4pm"));
+$("#5pm .description").val(localStorage.getItem("5pm"));
 
-    if (now > scheduleElArray[i].data("time")) {
-        scheduleElArray[i].addClass("past");
 
-    } else if (now === scheduleElArray[i].attr("hour")) {
-        scheduleElArray[i].addClass("present");
+function hourTracker() {
+var currentHour = moment().hour();
 
-    } else {
+$(".time-block").each(function () {
+var blockHour = parseInt($(this).attr("id").split("hour")[1]);
+console.log(blockHour, currentHour)
 
-        scheduleElArray[i].addClass("future");
-    }
+//past present future - colors
+if (blockHour < currentHour) {
+    $(this).addClass("past");
+    $(this).removeClass("future");
+    $(this).removeClass("present");
 }
+else if (blockHour === currentHour) {
+    $(this).removeClass("past");
+    $(this).addClass("present");
+    $(this).removeClass("future");
 }
-
-// textarea
-let saveBtn = $(".save-icon");
-let containerEl = $(".container");
-let schedule9am = $("#9am");
-let schedule10am = $("#10am");
-let schedule11am = $("#11am");
-let schedule12pm = $("#12pm");
-let schedule1pm = $("#1pm");
-let schedule2pm = $("#2pm");
-let schedule3pm = $("#3pm");
-let schedule4pm = $("#4pm");
-let schedule5pm = $("#5pm");
-
-let scheduleElArray = [
-schedule9am,
-schedule10am,
-schedule11am,
-schedule12pm,
-schedule1pm,
-schedule2pm,
-schedule3pm,
-schedule4pm,
-schedule5pm,
-];
-
-renderLastRegistered();
-updateTime();
-setInterval(updateTime, 1000); 
-
-// render schedule in local storage
-function renderLastRegistered() {
-for (let el of scheduleElArray) {
-    el.val(localStorage.getItem("time-block " + el.data("time")));
-
+else {
+    $(this).removeClass("present");
+    $(this).removeClass("past");
+    $(this).addClass("future");
 }
+})
 }
-
-
-// handle clicks
-function handleFormSubmit(event) {
-event.preventDefault();
-
-let btnClicked = $(event.currentTarget);
-
-let targetText = btnClicked.siblings("textarea");
-
-let targetTimeBlock = targetText.data("time");
-
-localStorage.setItem("time-block " +  targetTimeBlock, targetText.val());
-}
-
-saveBtn.on("click", handleFormSubmit);
+hourTracker();
+})
