@@ -5,4 +5,4 @@ Created a simple calendar application that allows a user to save events for each
 https://github.com/zionremnant/Work-Day-Scheduler
 https://zionremnant.github.io/Work-Day-Scheduler/
 
-<img width="916" alt="Screen Shot 2022-03-18 at 10 56 41 PM" src="https://user-images.githubusercontent.com/99617307/159109354-1efabf6d-9087-4ba1-8da0-1267233bd4a2.png">
+<img width="593" alt="Screen Shot 2022-03-18 at 11 20 39 PM" src="https://user-images.githubusercontent.com/99617307/159109997-177614c4-3eb1-4a7f-8af2-f1b96c13fdea.png">
